@@ -18,33 +18,23 @@ class CategoriesController extends AppController {
 		)
 	);
 
-/**
- * Components
- *
- * @var array
- */
 	public $components = array('Paginator', 'Session', 'Auth');
 
-/**
- * index method
- *
- * @return void
- */
-	public function index() {
-		$user = $this->Auth->user();
-		$this->Category->recursive = 0;
-		$this->paginate=array(
-			'conditions' =>array('Category.user_id' => $user['id']));
-		$this->set('categories', $this->Paginator->paginate());
-	}
+	public function beforeFilter() {
+        parent::beforeFilter();
+        $user = $this->Auth->user();
+        $this->Auth->allow('view');
+        $this->set('user', $user);
+    }
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+ 	* edit method
+ 	*
+ 	* @throws NotFoundException
+ 	* @param string $id
+ 	* @return void
+ 	* このページへの導線は今のところありません。
+ 	*/
 	public function view($id = null) {
 		if (!$this->Category->exists($id)) {
 			throw new NotFoundException(__('Invalid category'));
@@ -53,11 +43,6 @@ class CategoriesController extends AppController {
 		$this->set('category', $this->Category->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
 		$user = $this->Auth->user();
 		if ($this->request->is('post')) {
@@ -65,7 +50,7 @@ class CategoriesController extends AppController {
 			$this->request->data['Category']['user_id'] = $user['id'];
 			if ($this->Category->save($this->request->data)) {
 				$this->Session->setFlash(__('The category has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The category could not be saved. Please, try again.'));
 			}
@@ -78,6 +63,7 @@ class CategoriesController extends AppController {
  * @throws NotFoundException
  * @param string $id
  * @return void
+ * このページへの導線は今のところありません。
  */
 	public function edit($id = null) {
 		if (!$this->Category->exists($id)) {
@@ -102,6 +88,7 @@ class CategoriesController extends AppController {
  * @throws NotFoundException
  * @param string $id
  * @return void
+ * このページへの導線は今のところありません。
  */
 	public function delete($id = null) {
 		$this->Category->id = $id;

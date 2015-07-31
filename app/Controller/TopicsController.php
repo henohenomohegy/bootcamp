@@ -16,25 +16,29 @@ class TopicsController extends AppController {
 
 	public $components = array('Paginator', 'Session', 'Auth');
 
-/**
- * index method
- *
- * @return void
- */
-
 	public function beforeFilter() {
         parent::beforeFilter();
         $user = $this->Auth->user();
+        $this->Auth->allow('display', 'view');
         $this->set('user', $user);
     }
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    public function index(){
+    	$user = $this->Auth->user();
+		$topics = $this->Topic->find('all', array(
+			'conditions' => array('Topic.user_id' => $user['id'])));
+		$this->set('topics', $topics);
+
+	}
+
+	/**
+ 	* edit method
+ 	*
+ 	* @throws NotFoundException
+ 	* @param string $id
+ 	* @return void
+ 	* このページへの導線は今のところありません。
+ 	*/
 	public function view($id = null) {
 		if (!$this->Topic->exists($id)) {
 			throw new NotFoundException(__('Invalid topic'));
@@ -61,11 +65,6 @@ class TopicsController extends AppController {
 		$this->set(compact('topic_comments', 'user'));
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
 		$user = $this->Auth->user();
 		if ($this->request->is('post')) {
@@ -75,7 +74,7 @@ class TopicsController extends AppController {
 
 			if ($this->Topic->save($this->request->data)) {
 				$this->Session->setFlash('The topic has been saved.');
-				return $this->redirect(array('controller' => 'Pages', 'action' => 'display'));
+				return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The topic could not be saved. Please, try again.'));
 			}
@@ -85,13 +84,14 @@ class TopicsController extends AppController {
 		$this->set(compact('categories'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+ 	* edit method
+ 	*
+ 	* @throws NotFoundException
+ 	* @param string $id
+ 	* @return void
+ 	* このページへの導線は今のところありません。
+ 	*/
 	public function edit($id = null) {
 		if (!$this->Topic->exists($id)) {
 			throw new NotFoundException(__('Invalid topic'));
@@ -99,7 +99,7 @@ class TopicsController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Topic->save($this->request->data)) {
 				$this->Session->setFlash(__('The topic has been saved.'));
-				return $this->redirect('/');
+				return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The topic could not be saved. Please, try again.'));
 			}
@@ -111,13 +111,14 @@ class TopicsController extends AppController {
 		$this->set(compact('categories'));
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+ 	* delete method
+ 	*
+ 	* @throws NotFoundException
+ 	* @param string $id
+ 	* @return void
+ 	* このページへの導線は今のところありません。
+ 	*/
 	public function delete($id = null) {
 		$this->Topic->id = $id;
 		if (!$this->Topic->exists()) {
@@ -129,6 +130,6 @@ class TopicsController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The topic could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('controller' => 'Pages', 'action' => 'display'));
+		return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
 	}
 }

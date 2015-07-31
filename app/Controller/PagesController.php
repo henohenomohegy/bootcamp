@@ -49,57 +49,11 @@ class PagesController extends AppController {
  *	or MissingViewException in debug mode.
  */
 	public function display() {
-
 		$topics = $this->Topic->find('all');
 		$this->set('topics', $topics);
-		$path = func_get_args();
-
-		$count = count($path);
-		if (!$count) {
-			return $this->redirect('/');
-		}
-		$page = $subpage = $title_for_layout = null;
-
-		if (!empty($path[0])) {
-			$page = $path[0];
-		}
-		if (!empty($path[1])) {
-			$subpage = $path[1];
-		}
-		if (!empty($path[$count - 1])) {
-			$title_for_layout = Inflector::humanize($path[$count - 1]);
-		}
-		$this->set(compact('page', 'subpage', 'title_for_layout'));
-
-		try {
-			$this->render(implode('/', $path));
-		} catch (MissingViewException $e) {
-			if (Configure::read('debug')) {
-				throw $e;
-			}
-			throw new NotFoundException();
-		}
-	}
-
-	public function index(){
-		$topic = $this->Topic->find('all');
-		$this->set('topic', $topic);
 
 	}
-	public function add() {
-    	if ($this->request->is('post')) {
-        	$this->request->data['Post']['user_id'] = $this->Auth->user('id'); //Added this line
-        	if ($this->Post->save($this->request->data)) {
-            	$this->Session->setFlash(__('Your post has been saved.'));
-            	$this->redirect(array('action' => 'index'));
-        	}
-    	}
-	}
 
-	public function view(){
-		$topic_detail = $this->find('all');
-		$this->set(compact('topic_detail'));
-	}
 }
 
 

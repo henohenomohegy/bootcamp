@@ -1,5 +1,6 @@
 <?php echo $this->Html->image('top-logo@2x.png', array('alt' => 'CakePHP')); ?>
 <br>
+<h1>マイページです。</h1>
 <?php if(!empty($user)): ?>
 <h4>welcome：<?php print(h($user['username'])); ?>さん</h4>
 <?php print($this->Html->link('ログアウト', array('controller' => 'Users', 'action' => 'logout'))); ?>
@@ -14,7 +15,7 @@
 <?php echo $this->Html->link(__('Register'), array('controller' => 'Users', 'action' => 'register')); ?> 
 <br>
 <?php endif; ?>
-<h1>新着記事</h1>
+<h1>過去の投稿</h1>
 <hr>
 
 <?php foreach($topics as $topic): ?>
