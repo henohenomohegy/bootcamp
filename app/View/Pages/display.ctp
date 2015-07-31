@@ -1,3 +1,5 @@
+ああああああああ
+
 <?php echo $this->Html->image('top-logo@2x.png', array('alt' => 'CakePHP')); ?>
 <br>
 <h1>ログインせずに見れる一覧ページです</h1>

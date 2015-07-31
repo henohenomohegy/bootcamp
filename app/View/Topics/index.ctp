@@ -1,3 +1,4 @@
+<h1>いんでっくすです</h1>
 <?php echo $this->Html->image('top-logo@2x.png', array('alt' => 'CakePHP')); ?>
 <br>
 <h1>マイページです。</h1>
