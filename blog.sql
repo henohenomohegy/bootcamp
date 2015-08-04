@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 2015 年 8 月 04 日 18:13
+-- Generation Time: 2015 年 8 月 04 日 18:22
 -- サーバのバージョン： 5.5.42
 -- PHP Version: 5.6.7
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `blog`
 --
+CREATE DATABASE IF NOT EXISTS `blog` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `blog`;
 
 -- --------------------------------------------------------
 
