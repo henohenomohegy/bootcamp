@@ -17,28 +17,6 @@ class TopicsController extends AppController {
 		$this->set('topics', $topics);
 	}
 
-	public function view($id = null) {
-		if (!$this->Topic->exists($id)) {
-			throw new NotFoundException(__('Invalid topic'));
-		}
-		$options = array('conditions' => array('Topic.' . $this->Topic->primaryKey => $id));
-		$this->set('topic', $this->Topic->find('first', $options));
-		$this->request->data['Comment']['topic_id'] = $id;
-		if($this->request->is('post')){
-			$this->Topic->Comment->create();
-			if($this->Topic->Comment->save($this->request->data)){
-				$this->Session->setFlash('だん');
-				$this->redirect($this->referer());
-			}
-		}
-		$topic_comments = $this->Topic->Comment->find('all', array(
-			'fields' => array('Comment.comment', 'Comment.title', 'Comment.comment_name'),
-			'conditions' => array('Comment.topic_id' => $id),
-			
-		));
-		$user = $this->Auth->user();
-		$this->set(compact('topic_comments', 'user'));
-	}
 	public function add() {
 		$user = $this->Auth->user();
 		if ($this->request->is('post')) {
