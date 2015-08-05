@@ -2,7 +2,7 @@
 	<div class="col-sm-offset-1 col-xs-offset-1">
 		<nav class="navbar">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="/cake/">BLOG TITLE</a>
+				<a class="navbar-brand" href="/">BLOG TITLE</a>
 			</div>
 			<div class="navbar-right">
 				<ul class="nav navbar-nav">

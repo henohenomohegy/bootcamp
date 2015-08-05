@@ -77,11 +77,6 @@ class Topic extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 }
