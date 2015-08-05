@@ -2,13 +2,13 @@
 	<div class="col-sm-offset-1 col-xs-offset-1">
 		<nav class="navbar">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="/">BLOG TITLE</a>
+				<a class="navbar-brand" href="/cake/">BLOG TITLE</a>
 			</div>
 			<div class="navbar-right">
 				<ul class="nav navbar-nav">
 
 				<?php if(!empty($user)): ?>
-					<li><a href="#"><?php print(h($user['username'])); ?>さん</a></li>
+					<li><a href="/cake/topics/"><?php print(h($user['username'])); ?>さん</a></li>
 					<li><?php print($this->Html->link('LOGOUT', array('controller' => 'Users', 'action' => 'logout'))); ?></li>
 					<li><?php echo $this->Html->link(__('Add Category'), array('controller' => 'categories', 'action' => 'add')); ?></li>
 					<li><?php echo $this->Html->link(__('New Topic'), array('controller' => 'topics', 'action' => 'add')); ?></li>

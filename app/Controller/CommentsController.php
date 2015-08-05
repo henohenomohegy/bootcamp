@@ -1,108 +1,92 @@
 <?php
 App::uses('AppController', 'Controller');
-/**
- * Comments Controller
- *
- * @property Comment $Comment
- * @property PaginatorComponent $Paginator
- */
-class CommentsController extends AppController {
 
-/**
- * Components
- *
- * @var array
- */
-	public $components = array('Paginator');
+class TopicsController extends AppController {
 
-/**
- * index method
- *
- * @return void
- */
-	public function index() {
-		$this->Comment->recursive = 0;
-		$this->set('comments', $this->Paginator->paginate());
+	public $components = array('Paginator', 'Session', 'Auth');
+	public function beforeFilter() {
+        parent::beforeFilter();
+        $user = $this->Auth->user();
+        $this->Auth->allow('display', 'view');
+        $this->set('user', $user);
+    }
+    public function index(){
+    	$user = $this->Auth->user();
+		$topics = $this->Topic->find('all', array(
+			'conditions' => array('Topic.user_id' => $user['id'])));
+		$this->set('topics', $topics);
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function view($id = null) {
-		if (!$this->Comment->exists($id)) {
-			throw new NotFoundException(__('Invalid comment'));
+		if (!$this->Topic->exists($id)) {
+			throw new NotFoundException(__('Invalid topic'));
 		}
-		$options = array('conditions' => array('Comment.' . $this->Comment->primaryKey => $id));
-		$this->set('comment', $this->Comment->find('first', $options));
-	}
-
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Comment->create();
-			if ($this->Comment->save($this->request->data)) {
-				$this->Session->setFlash(__('The comment has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The comment could not be saved. Please, try again.'));
+		$options = array('conditions' => array('Topic.' . $this->Topic->primaryKey => $id));
+		$this->set('topic', $this->Topic->find('first', $options));
+		$this->request->data['Comment']['topic_id'] = $id;
+		if($this->request->is('post')){
+			$this->Topic->Comment->create();
+			if($this->Topic->Comment->save($this->request->data)){
+				$this->Session->setFlash('だん');
+				$this->redirect($this->referer());
 			}
 		}
-		$topics = $this->Comment->Topic->find('list');
-		$this->set(compact('topics'));
+		$topic_comments = $this->Topic->Comment->find('all', array(
+			'fields' => array('Comment.comment', 'Comment.title', 'Comment.comment_name'),
+			'conditions' => array('Comment.topic_id' => $id),
+			
+		));
+		$user = $this->Auth->user();
+		$this->set(compact('topic_comments', 'user'));
+	}
+	public function add() {
+		$user = $this->Auth->user();
+		if ($this->request->is('post')) {
+			$this->Topic->create();
+			$this->request->data['Topic']['user_id'] = $user['id'];
+			$this->set('data', $this->request->data);
+			if ($this->Topic->save($this->request->data)) {
+				$this->Session->setFlash('The topic has been saved.');
+				return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The topic could not be saved. Please, try again.'));
+			}
+		}
+		$categories = $this->Topic->Category->find('list', array(
+			'conditions' => array('Category.user_id' => $user['id'])));
+		$this->set(compact('categories'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function edit($id = null) {
-		if (!$this->Comment->exists($id)) {
-			throw new NotFoundException(__('Invalid comment'));
+		if (!$this->Topic->exists($id)) {
+			throw new NotFoundException(__('Invalid topic'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Comment->save($this->request->data)) {
-				$this->Session->setFlash(__('The comment has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+			if ($this->Topic->save($this->request->data)) {
+				$this->Session->setFlash(__('The topic has been saved.'));
+				return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The comment could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The topic could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Comment.' . $this->Comment->primaryKey => $id));
-			$this->request->data = $this->Comment->find('first', $options);
+			$options = array('conditions' => array('Topic.' . $this->Topic->primaryKey => $id));
+			$this->request->data = $this->Topic->find('first', $options);
 		}
-		$topics = $this->Comment->Topic->find('list');
-		$this->set(compact('topics'));
+		$categories = $this->Topic->Category->find('list');
+		$this->set(compact('categories'));
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function delete($id = null) {
-		$this->Comment->id = $id;
-		if (!$this->Comment->exists()) {
-			throw new NotFoundException(__('Invalid comment'));
+		$this->Topic->id = $id;
+		if (!$this->Topic->exists()) {
+			throw new NotFoundException(__('Invalid topic'));
 		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Comment->delete()) {
-			$this->Session->setFlash(__('The comment has been deleted.'));
+		if ($this->Topic->delete()) {
+			$this->Session->setFlash(__('The topic has been deleted.'));
 		} else {
-			$this->Session->setFlash(__('The comment could not be deleted. Please, try again.'));
+			$this->Session->setFlash(__('The topic could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
 	}
 }

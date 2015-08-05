@@ -1,51 +1,28 @@
 <?php
 App::uses('AppController', 'Controller');
-/**
- * Topics Controller
- *
- * @property Topic $Topic
- * @property PaginatorComponent $Paginator
- */
+
 class TopicsController extends AppController {
 
-/**
- * Components
- *
- * @var array
- */
-
 	public $components = array('Paginator', 'Session', 'Auth');
-
 	public function beforeFilter() {
         parent::beforeFilter();
         $user = $this->Auth->user();
         $this->Auth->allow('display', 'view');
         $this->set('user', $user);
     }
-
     public function index(){
     	$user = $this->Auth->user();
 		$topics = $this->Topic->find('all', array(
 			'conditions' => array('Topic.user_id' => $user['id'])));
 		$this->set('topics', $topics);
-
 	}
 
-	/**
- 	* edit method
- 	*
- 	* @throws NotFoundException
- 	* @param string $id
- 	* @return void
- 	* このページへの導線は今のところありません。
- 	*/
 	public function view($id = null) {
 		if (!$this->Topic->exists($id)) {
 			throw new NotFoundException(__('Invalid topic'));
 		}
 		$options = array('conditions' => array('Topic.' . $this->Topic->primaryKey => $id));
 		$this->set('topic', $this->Topic->find('first', $options));
-
 		$this->request->data['Comment']['topic_id'] = $id;
 		if($this->request->is('post')){
 			$this->Topic->Comment->create();
@@ -54,24 +31,20 @@ class TopicsController extends AppController {
 				$this->redirect($this->referer());
 			}
 		}
-
 		$topic_comments = $this->Topic->Comment->find('all', array(
 			'fields' => array('Comment.comment', 'Comment.title', 'Comment.comment_name'),
 			'conditions' => array('Comment.topic_id' => $id),
 			
 		));
 		$user = $this->Auth->user();
-
 		$this->set(compact('topic_comments', 'user'));
 	}
-
 	public function add() {
 		$user = $this->Auth->user();
 		if ($this->request->is('post')) {
 			$this->Topic->create();
 			$this->request->data['Topic']['user_id'] = $user['id'];
 			$this->set('data', $this->request->data);
-
 			if ($this->Topic->save($this->request->data)) {
 				$this->Session->setFlash('The topic has been saved.');
 				return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
@@ -84,14 +57,6 @@ class TopicsController extends AppController {
 		$this->set(compact('categories'));
 	}
 
-	/**
- 	* edit method
- 	*
- 	* @throws NotFoundException
- 	* @param string $id
- 	* @return void
- 	* このページへの導線は今のところありません。
- 	*/
 	public function edit($id = null) {
 		if (!$this->Topic->exists($id)) {
 			throw new NotFoundException(__('Invalid topic'));
@@ -111,14 +76,6 @@ class TopicsController extends AppController {
 		$this->set(compact('categories'));
 	}
 
-	/**
- 	* delete method
- 	*
- 	* @throws NotFoundException
- 	* @param string $id
- 	* @return void
- 	* このページへの導線は今のところありません。
- 	*/
 	public function delete($id = null) {
 		$this->Topic->id = $id;
 		if (!$this->Topic->exists()) {
