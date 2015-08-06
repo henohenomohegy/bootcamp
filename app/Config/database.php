@@ -74,7 +74,7 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => 'root',
-		'database' => 'bootcamp',
+		'database' => 'blog',
 		'prefix' => '',
 		'encoding' => 'utf8',
 	);

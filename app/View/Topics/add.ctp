@@ -6,10 +6,10 @@
 			<?php echo $this->Form->input('title', array('class' => 'form-control')); ?>
 		</div>
 		<div class="form-group">
-			<?php echo $this->Form->input('body', array('class' => 'form-control')); ?>
+			<?php echo $this->Form->input('body', array('type' => 'textarea', 'class' => 'form-control')); ?>
 		</div>
 		<div class="form-group">
-			<?php echo $this->Form->input('category_id', array('class' => 'form-control')); ?>
+			<?php echo $this->Form->input('category_id', array('type' => 'select', 'class' => 'form-control')); ?>
 		</div>
 		<div class="form-group">
 			<?php echo $this->Form->submit('追加', array('class' => 'btn btn-success')); ?>

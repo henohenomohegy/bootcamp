@@ -10,7 +10,11 @@
 			<?php echo $this->Form->input('body', array('class' => 'form-control')); ?>
 		</div>
 		<div class="form-group">
-			<?php echo $this->Form->input('category_id', array('class' => 'form-control')); ?>
+			<?php echo $this->Form->input('category_id', array(
+				'type' => 'select',
+				'options' => $categories,
+				'class' => 'form-control'
+			)); ?>
 		</div>
 		<div class="form-group">
 			<?php echo $this->Form->submit('編集', array('class' => 'btn btn-success')); ?>

@@ -7,13 +7,14 @@ class TopicsController extends AppController {
 	public function beforeFilter() {
         parent::beforeFilter();
         $user = $this->Auth->user();
-        $this->Auth->allow('display', 'view');
         $this->set('user', $user);
     }
+
     public function index(){
     	$user = $this->Auth->user();
 		$topics = $this->Topic->find('all', array(
-			'conditions' => array('Topic.user_id' => $user['id'])));
+			'conditions' => array('Topic.user_id' => $user['id'])
+		));
 		$this->set('topics', $topics);
 	}
 
@@ -24,14 +25,15 @@ class TopicsController extends AppController {
 			$this->request->data['Topic']['user_id'] = $user['id'];
 			$this->set('data', $this->request->data);
 			if ($this->Topic->save($this->request->data)) {
-				$this->Session->setFlash('The topic has been saved.');
-				return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
+				$this->Session->setFlash('保存に成功しました');
+				return $this->redirect('/');
 			} else {
-				$this->Session->setFlash(__('The topic could not be saved. Please, try again.'));
+				$this->Session->setFlash('保存に失敗しました');
 			}
 		}
 		$categories = $this->Topic->Category->find('list', array(
-			'conditions' => array('Category.user_id' => $user['id'])));
+			'conditions' => array('Category.user_id' => $user['id'])
+		));
 		$this->set(compact('categories'));
 	}
 
@@ -41,14 +43,15 @@ class TopicsController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Topic->save($this->request->data)) {
-				$this->Session->setFlash(__('The topic has been saved.'));
-				return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
+				$this->Session->setFlash('保存に成功しました');
+				return $this->redirect('/');
 			} else {
-				$this->Session->setFlash(__('The topic could not be saved. Please, try again.'));
+				$this->Session->setFlash('保存に失敗しました');
 			}
 		} else {
-			$options = array('conditions' => array('Topic.' . $this->Topic->primaryKey => $id));
-			$this->request->data = $this->Topic->find('first', $options);
+			$this->request->data = $this->Topic->find('first', array(
+				'conditions' => array('Topic.id' => $id)
+			));
 		}
 		$categories = $this->Topic->Category->find('list');
 		$this->set(compact('categories'));
