@@ -8,7 +8,7 @@
 				<div class="col-sm-9">
 						<h2><?php echo h($topic['Topic']['title']); ?></h2>
 						<p><?php echo $this->Text->truncate($topic['Topic']['body'],200); ?></p>
-						<p><?php echo $this->Html->link(__('Continue reading'), array('controller' => 'topics', 'action' => 'view', $topic['Topic']['id'])); ?></p>
+						<p><a href="/detail/<?php echo $topic['Topic']['id']?>">Continue reading</a></p>
 					<span class="fa fa-tags"></span>
 					<a href=""><span class="label label-danger"><?php echo $this->Html->link($topic['Category']['name'], array('controller' => 'categories', 'action' => 'view', $topic['Category']['id']));  ?></span></a>
 				</div>

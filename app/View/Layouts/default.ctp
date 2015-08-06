@@ -29,6 +29,7 @@
 	?>
 </head>
 <body>
+	<?php echo $this->element('navbar'); ?>
 	<div class="container-fluid">
 		<?php echo $this->element('header'); ?>
 		<?php echo $this->fetch('content'); ?>
