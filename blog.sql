@@ -37,6 +37,11 @@ CREATE TABLE `categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `categories` (`id`, `user_id`, `name`, `created`, `modified`) VALUES
+(1, NULL, '日記', '2015-08-05 08:08:44', '2015-08-05 08:08:44'),
+(2, NULL, '趣味', '2015-08-05 08:09:29', '2015-08-05 08:09:29'),
+(3, NULL, 'グルメ', '2015-08-05 08:09:38', '2015-08-05 08:09:38'),
+(4, NULL, '書評', '2015-08-05 08:09:45', '2015-08-05 08:09:45');
 -- --------------------------------------------------------
 
 --
@@ -47,11 +52,16 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
   `role` varchar(20) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `users` (`id`, `username`, `password`, `name`, `role`, `created`, `modified`) VALUES
+(1, 'testuser1', 'test', 'テスト太郎１', NULL, NULL, NULL);
+
 --
 -- Indexes for dumped tables
 --
@@ -81,6 +91,10 @@ CREATE TABLE `topics` (
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `topics` (`id`, `title`, `body`, `category_id`, `created`, `modified`, `user_id`) VALUES
+(1, '記事タイトル記事タイトル', 'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト', 1, '2015-08-05 00:00:00', '0000-00-00 00:00:00', 1),
+(2, '記事タイトル２', 'テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト', 1, '2015-08-05 00:00:00', '2015-08-05 00:00:00', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -102,4 +116,9 @@ CREATE TABLE `comments` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `comments` (`id`, `topic_id`, `title`, `comment`, `created`, `modified`, `comment_name`) VALUES
+(1, 1, 'コメントタイトル１', 'こめんとこめんとこめんと', '2015-08-06 00:00:00', '2015-08-06 00:00:00', 'テスト太郎'),
+(2, 1, 'こめんとたいとる２', 'コメント２コメント２コメント２コメント２コメント２コメント２コメント２コメント２コメント２コメント２コメント２コメント２', '2015-08-06 00:00:00', '2015-08-06 00:00:00', 'コメント太郎２');
+
 -- --------------------------------------------------------
