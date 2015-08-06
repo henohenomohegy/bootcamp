@@ -1,13 +1,20 @@
-<div class="topics form">
-<?php echo $this->Form->create('Topic'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit Topic'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('title');
-		echo $this->Form->input('body');
-		echo $this->Form->input('category_id');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<div class="row">
+	<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10">
+		<h2>記事追加</h2>
+		<?php echo $this->Form->create('Topic', array('class' => 'form')); ?>
+		<?php echo $this->Form->hidden('id'); ?>
+		<div class="form-group">
+			<?php echo $this->Form->input('title', array('class' => 'form-control')); ?>
+		</div>
+		<div class="form-group">
+			<?php echo $this->Form->input('body', array('class' => 'form-control')); ?>
+		</div>
+		<div class="form-group">
+			<?php echo $this->Form->input('category_id', array('class' => 'form-control')); ?>
+		</div>
+		<div class="form-group">
+			<?php echo $this->Form->submit('編集', array('class' => 'btn btn-success')); ?>
+		</div>
+		<?php echo $this->Form->end(); ?>
+	</div>
 </div>
