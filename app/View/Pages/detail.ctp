@@ -15,13 +15,13 @@
             <div class="form">
                 <?php echo $this->Form->create('Comment'); ?>
                 <div class="form-group">
-                    <?php echo $this->Form->input('comment_name', array('class' => 'form-control')); ?>
+                    <?php echo $this->Form->input('comment_name', array('type' => 'text', 'class' => 'form-control')); ?>
                 </div>
                 <div class="form-group">
-                    <?php echo $this->Form->input('title', array('class' => 'form-control')); ?>
+                    <?php echo $this->Form->input('title', array('type' => 'text', 'class' => 'form-control')); ?>
                 </div>
                 <div class="form-group">
-                    <?php echo $this->Form->input('comment', array('class' => 'form-control')); ?>
+                    <?php echo $this->Form->input('comment', array('type' => 'textarea', 'class' => 'form-control')); ?>
                 </div>
                 <div class="form-group">
                     <?php echo $this->Form->submit('コメント', array('class' => 'btn btn-primary')); ?>

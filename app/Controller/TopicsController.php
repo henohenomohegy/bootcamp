@@ -4,6 +4,12 @@ App::uses('AppController', 'Controller');
 class TopicsController extends AppController {
 
 	public $components = array('Paginator', 'Session', 'Auth');
+	public $uses = array(
+		'Category',
+		'Topic',
+		'User'
+	);
+
 	public function beforeFilter() {
         parent::beforeFilter();
         $user = $this->Auth->user();
@@ -31,17 +37,15 @@ class TopicsController extends AppController {
 				$this->Session->setFlash('保存に失敗しました');
 			}
 		}
-		$categories = $this->Topic->Category->find('list', array(
-			'conditions' => array('Category.user_id' => $user['id'])
-		));
+		$categories = $this->Category->find('list');
 		$this->set(compact('categories'));
 	}
 
 	public function edit($id = null) {
 		if (!$this->Topic->exists($id)) {
-			throw new NotFoundException(__('Invalid topic'));
+			throw new NotFoundException('Invalid topic');
 		}
-		if ($this->request->is(array('post', 'put'))) {
+		if ($this->request->is(array('post'))) {
 			if ($this->Topic->save($this->request->data)) {
 				$this->Session->setFlash('保存に成功しました');
 				return $this->redirect('/');
@@ -53,21 +57,20 @@ class TopicsController extends AppController {
 				'conditions' => array('Topic.id' => $id)
 			));
 		}
-		$categories = $this->Topic->Category->find('list');
+		$categories = $this->Category->find('list');
 		$this->set(compact('categories'));
 	}
 
 	public function delete($id = null) {
-		$this->Topic->id = $id;
-		if (!$this->Topic->exists()) {
-			throw new NotFoundException(__('Invalid topic'));
+		if (!$this->Topic->exists($id)) {
+			throw new NotFoundException('Invalid topic');
 		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Topic->delete()) {
-			$this->Session->setFlash(__('The topic has been deleted.'));
+
+		if ($this->Topic->delete($id)) {
+			$this->Session->setFlash('削除に成功しました');
 		} else {
-			$this->Session->setFlash(__('The topic could not be deleted. Please, try again.'));
+			$this->Session->setFlash('削除に失敗しました');
 		}
-		return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
+		return $this->redirect('/');
 	}
 }

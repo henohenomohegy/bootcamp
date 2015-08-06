@@ -21,12 +21,12 @@ class PagesController extends AppController {
 		$this->set('topics', $topics);
 	}
 
-    public function detail () {
+    public function detail() {
         // パラメーターを取得
         $id = $this->request->params['id'];
 
         if (!$this->Topic->exists($id)) {
-            throw new NotFoundException(__('Invalid topic'));
+            throw new NotFoundException('Invalid topic');
         }
 
         $options = array( 

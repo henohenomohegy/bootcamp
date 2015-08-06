@@ -20,22 +20,22 @@ class UsersController extends AppController {
     if($this->request->is('post') && $this->User->save($this->request->data)){
 
       $this->Auth->login();
-      $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
+      $this->redirect(array('controller' => 'topics', 'action' => 'index'));
     }
   }
 
   public function login(){
     if($this->request->is('post')) {
       if($this->Auth->login())
-        return $this->redirect(array('controller' => 'Topics', 'action' => 'index'));
+        return $this->redirect(array('controller' => 'topics', 'action' => 'index'));
       else
-        $this->Session->setFlash('ログイン失敗');
+        $this->Session->setFlash('ログインに失敗しました');
     }
   }
 
   public function logout(){
     $this->Auth->logout();
-    $this->redirect(array('controller' => 'Pages', 'action' => 'display'));
+    $this->redirect(array('/'));
   }
 }
 

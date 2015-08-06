@@ -1,5 +1,12 @@
 <div class="row">
 	<div class="col-sm-offset-1 col-sm-7 col-xs-offset-1 col-xs-10">
+		<?php if ($this->Session->check('Message.flash')) : ?>
+			<article class="row">
+				<div class="alert alert-success">
+					<?php echo $this->Session->flash(); ?>
+				</div>
+			</article>
+		<?php endif; ?>
 		<?php foreach($topics as $topic): ?>
 			<article class="row">
 				<div class="col-sm-3">
