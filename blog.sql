@@ -60,7 +60,9 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `role`, `created`, `modified`) VALUES
-(1, 'testuser1', 'test', 'テスト太郎１', NULL, NULL, NULL);
+(1, 'testuser1', 'dd51629f43ea493556687e93ac1b590a46bf335a', 'テスト太郎１', NULL, now(), now());
+INSERT INTO `users` (`id`, `username`, `password`, `name`, `role`, `created`, `modified`) VALUES
+(2, 'testuser2', 'db677061dcfd3dc4cc36fb984736e999511a2f9b', 'テスト太郎２', NULL, now(), now());
 
 --
 -- Indexes for dumped tables
