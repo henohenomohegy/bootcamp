@@ -11,22 +11,30 @@
     <section class="row">
         <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10">
             <hr>
-            <h2><?php echo __('COMMENT'); ?></h2>
-            <?php echo $this->Form->create('Comment'); ?>
-            <?php echo $this->Form->input(
-                'comment_name',
-                array('type' => 'text')
-                ); ?>
-            <?php echo $this->Form->input('title'); ?>
-            <?php echo $this->Form->input('comment'); ?>
-            <?php echo $this->Form->end('Submit'); ?>
+            <h4 class="h4">Comment</h4>
+            <div class="form">
+                <?php echo $this->Form->create('Comment'); ?>
+                <div class="form-group">
+                    <?php echo $this->Form->input('comment_name', array('class' => 'form-control')); ?>
+                </div>
+                <div class="form-group">
+                    <?php echo $this->Form->input('title', array('class' => 'form-control')); ?>
+                </div>
+                <div class="form-group">
+                    <?php echo $this->Form->input('comment', array('class' => 'form-control')); ?>
+                </div>
+                <div class="form-group">
+                    <?php echo $this->Form->submit('コメント', array('class' => 'btn btn-primary')); ?>
+                </div>
+                <?php echo $this->Form->end(); ?>
+            </div>
         </div>
         <div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10">
             <?php foreach($topic_comments as $topic_comment): ?>
                 <hr>
                 <section>
-                    <h4><?php echo $topic_comment['Comment']['comment_name']; ?></h4>
-                    <h3><?php echo $topic_comment['Comment']['title']; ?></h3>
+                    <h4 class="h4"><?php echo $topic_comment['Comment']['comment_name']; ?></h4>
+                    <h3 class="h3"><?php echo $topic_comment['Comment']['title']; ?></h3>
                     <p><?php echo $topic_comment['Comment']['comment']; ?></p>
                 </section>
             <?php endforeach; ?>
