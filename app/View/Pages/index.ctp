@@ -14,6 +14,22 @@
 				</div>
 				<div class="col-sm-9">
 						<h2><?php echo h($topic['Topic']['title']); ?></h2>
+						<?php if(!empty($user) && $topic['Topic']['user_id'] == $user['id']): ?>
+							<button type="button" class="btn btn-default">
+								<?php echo $this->Html->link(
+									'Edit', 
+									array('controller' => 'topics', 'action' => 'edit', $topic['Topic']['id'])
+								); ?>
+							</button>
+							<button type="button" class="btn btn-default">
+								<?php echo $this->Form->postLink(
+									'Delete', 
+									array('controller' => 'topics', 'action' => 'delete', $topic['Topic']['id']),
+									array(),
+									'本当に削除してもよろしいですか？'
+								); ?>
+							</button>
+						<?php endif; ?>
 						<p><?php echo $this->Text->truncate($topic['Topic']['body'],200); ?></p>
 						<p><a href="/detail/<?php echo $topic['Topic']['id']?>">Continue reading</a></p>
 					<span class="fa fa-tags"></span>

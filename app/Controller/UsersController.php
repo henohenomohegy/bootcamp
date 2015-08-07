@@ -17,17 +17,18 @@ class UsersController extends AppController {
 
   public function register(){
 
-    if($this->request->is('post') && $this->User->save($this->request->data)){
-
-      $this->Auth->login();
-      $this->redirect(array('controller' => 'topics', 'action' => 'index'));
+    if($this->request->is('post')) {
+      if ($this->User->save($this->request->data)) {
+        $this->Auth->login();
+        $this->redirect('/');
+      }
     }
   }
 
   public function login(){
     if($this->request->is('post')) {
       if($this->Auth->login())
-        return $this->redirect(array('controller' => 'topics', 'action' => 'index'));
+        return $this->redirect('/');
       else
         $this->Session->setFlash('ログインに失敗しました');
     }
@@ -35,7 +36,7 @@ class UsersController extends AppController {
 
   public function logout(){
     $this->Auth->logout();
-    $this->redirect(array('/'));
+    $this->redirect('/');
   }
 }
 
